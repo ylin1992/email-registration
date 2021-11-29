@@ -6,13 +6,16 @@ import SubscribeButton from './SubscribeButton';
 import UnsubscribeButton from './UnsubscribeButton';
 import LoginButton from '../navbar/LoginButton';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
+const DB_SERVER_HOST=process.env.REACT_APP_DB_SERVER_HOST;
+
 function SubscriptionGroup() {
     const [subscribeText, setSubscribeText] = useState("");
     const [isSubscribe, setIsSubscribe] = useState(false);
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [userIdInDB, setUserIdInDB] = useState(0);
     if (isAuthenticated) {
-        axios.get('http://localhost:5000/users/'+user.email)
+        axios.get(DB_SERVER_HOST+'/users/'+user.email)
                 .then(response => {
                     setUserIdInDB(response.data.id);
                     let isSubscribed = response.data.subscribed;
