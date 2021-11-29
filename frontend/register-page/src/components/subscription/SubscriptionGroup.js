@@ -5,7 +5,7 @@ import axios from 'axios';
 import SubscribeButton from './SubscribeButton';
 import UnsubscribeButton from './UnsubscribeButton';
 import LoginButton from '../navbar/LoginButton';
-
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 function SubscriptionGroup() {
     const [subscribeText, setSubscribeText] = useState("");
     const [isSubscribe, setIsSubscribe] = useState(false);
@@ -39,6 +39,7 @@ function SubscriptionGroup() {
         (!isLoading && isAuthenticated) ? (
             <div className="subscription-section">
                 <h2>Hi! {user.name}</h2>
+                {isSubscribe && ( <CheckCircleIcon fontSize="large" style={{ color: "green" }}/> )}
                 <p>{subscribeText}</p>
                 {!isSubscribe ? (
                     <SubscribeButton isSubscribe={isSubscribe} id={userIdInDB} setIsSubscribe={setIsSubscribe}/>

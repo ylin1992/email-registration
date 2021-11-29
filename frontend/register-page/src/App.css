@@ -2,8 +2,9 @@
   --clr-primary-100: #F8F0DF;
   --clr-primary-200: #F2EDD7;
   --clr-primary-400: #79B4B7;
+  --clr-primary-500: #87AAAA;
   --clr-primary-800: #9D9D9D;
-
+  --clr-primary-600: #F6EABE;
   text-align: center;
 }
 
@@ -11,6 +12,8 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+
 }
 
 body,
@@ -50,14 +53,24 @@ header h1 {
   font-size: 50px;
 }
 
+header p {
+  font-size: 30px;
+}
+
 .bg-dark-green {
   color: var(--clr-primary-100);
   background-color: var(--clr-primary-400);
 }
 
 .bg-light-yellow {
-  color: var(--clr-primary-800);
+  /* color: var(--clr-primary-800); */
+  color: #86340A;
   background-color: var(--clr-primary-200);
+}
+
+.bg-dark-yellow {
+  background-color: var(--clr-primary-600);
+  color: var(--clr-primary-800);
 }
 
 .subscription-section {
@@ -80,7 +93,7 @@ header h1 {
   padding: 0;
 }
 
-img {
+header img {
   display: block;
   max-width: 100%;
   border-width: thick;
@@ -103,9 +116,44 @@ img {
   flex: 1 1 40%;
 }
 
+
 @media (min-width: 40em) {
   .split {
     display: flex;
     flex-direction: row;
   }
+}
+
+.split-even {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+@media (min-width: 40em) {
+  .split-even {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.step-container {
+  padding: 0 1rem;
+  border-style: solid;
+  border-color: #FFD371;
+  border-radius: 5%;
+  margin-inline: 1rem;
+}
+
+.step-container img {
+  display: block;
+  max-width: 100%;
+  width: 500px;
+  padding-bottom: 1rem;
+}
+
+.step-container h3 {
+  padding-top: 1em;
+  padding-bottom: 0;
 }
