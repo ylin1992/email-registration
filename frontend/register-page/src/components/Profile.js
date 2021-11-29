@@ -9,7 +9,7 @@ function Profile() {
 
     return (
         isAuthenticated && (
-        <div>
+        <div className="profile">
             <h2>{user.name}</h2>
             <p>{user.email}</p>
         </div>

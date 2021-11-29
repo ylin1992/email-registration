@@ -1,20 +1,111 @@
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
+:root {
+  --clr-primary-100: #F8F0DF;
+  --clr-primary-200: #F2EDD7;
+  --clr-primary-400: #79B4B7;
+  --clr-primary-800: #9D9D9D;
+
+  text-align: center;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-bottom: 1em;
+}
+
+
+body {
+  font-weight: 400;
+  font-size: 1.3125rem;
+}
+
+header,
+section {
+  padding: 3rem 0;
+}
+
+
+header {
+  font-family: 'Outfit', sans-serif;
+}
+
+header h1 {
+  color: #F7D08A;
+  font-weight: bolder;
+  font-size: 50px;
+}
+
+.bg-dark-green {
+  color: var(--clr-primary-100);
+  background-color: var(--clr-primary-400);
+}
+
+.bg-light-yellow {
+  color: var(--clr-primary-800);
+  background-color: var(--clr-primary-200);
+}
+
+.subscription-section {
+  font-family: 'Outfit', sans-serif;
+}
+
+.container {
+  margin-inline: auto;
+  width: min(90%, 70.5rem);
+}
+
+.login-btn,
+.logout-btn {
+  position: absolute;
+  top: 1rem;
+  right: 2rem;
+}
+
+.navbar {
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  border-width: thick;
+  border-style: solid;
+  border-radius: 10%;
+}
+
+.split {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  display: flex;
 }
 
-.App-link {
-  color: #61dafb;
+.split > *:nth-child(1){
+  flex: 1 1 60%
 }
 
-button {
-  margin: 2rem 1rem;
-  padding: 1rem 2rem;
-  cursor: pointer;
+.split > *:nth-child(2){
+  flex: 1 1 40%;
+}
+
+@media (min-width: 40em) {
+  .split {
+    display: flex;
+    flex-direction: row;
+  }
 }
