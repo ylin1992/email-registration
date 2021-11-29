@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAuth0 } from '@auth0/auth0-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import SubscribeButton from './SubscribeButton';
 import UnsubscribeButton from './UnsubscribeButton';
@@ -25,7 +25,8 @@ function SubscriptionGroup() {
                     console.log(subscribeText)
                 })
     }
-
+    console.log("autheticated:" + isAuthenticated);
+    console.log("isLoading:" + isLoading);
     return (
         !isLoading && isAuthenticated && (
             <div>
