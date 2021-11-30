@@ -17,13 +17,6 @@ def create_app():
 
 app = create_app()
 
-# @app.route('/callback', methods=['GET'])
-# def app_response_code():
-#     return '''  <script type="text/javascript">
-#                 var token = window.location.href.split("access_token=")[1]; 
-#                 window.location = "/callback_token/" + token;
-#             </script> '''
-
 @app.route('/callback', methods=['GET'])
 def app_response_code():
     return '''  <script type="text/javascript">
@@ -47,7 +40,7 @@ def post_token_request(id_token):
         'client_id': os.getenv('CLIENT_ID', ''),
         'client_secret': os.getenv('CLIENT_SECRET', ''),
         'code': id_token,
-        'redirect_uri': 'http://127.0.0.1:5000/callback'
+        'redirect_uri': os.getenv('REDIRECT_URI', '')
     }
     header = {
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -89,6 +82,29 @@ def update_user_subscription(user_id):
             'id': user.id,
             'subscribed': user.subscribed 
         }
+    })
+
+@app.route('/users', methods=['GET'])
+def get_all_users():
+    query = request.args
+    try:
+        if 'subscribed' in query:
+            subscribed = query.get('subscribed')
+            if subscribed.lower() == 'true':
+                user_query = User.query.filter_by(subscribed=True).all()
+            elif subscribed.lower() == 'false':
+                user_query = User.query.filter_by(subscribed=False).all()
+            else:
+                abort(400)
+        else:       
+            user_query = User.query.all()
+        users = [u.format() for u in user_query]
+    except Exception as e:
+        print(e)
+        abort(500)
+    return jsonify({
+        'users': users,
+        'success': True
     })
 
 if __name__ == '__main__':

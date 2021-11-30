@@ -32,3 +32,9 @@ class User(db.Model):
     def update(self):
         db.session.commit()
         
+    def format(self):
+        return {
+            'id': self.id,
+            'email': self.email,
+            'subscribed': self.subscribed
+        }
