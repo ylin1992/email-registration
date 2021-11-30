@@ -1,15 +1,15 @@
 import React from 'react'
 import axios from 'axios';
+import { DB_SERVER_HOST } from '../../config';
+
+
 function SubscribeButton(props) {
     function subscribeButtonHandler() {
-        console.log(props.id);
-        console.log(props.isSubscribe)
         let data = new FormData();
         data.append('subscribed', props.isSubscribed);
-        axios.patch('http://localhost:5000/users/'+props.id, {
+        axios.patch(DB_SERVER_HOST+'/users/'+props.id, {
             'subscribed': true
         }).then(response => {
-            console.log(response.data);
             props.setIsSubscribe(data.subscribed);
         }).then( () => {
             window.location.href = window.location.origin;

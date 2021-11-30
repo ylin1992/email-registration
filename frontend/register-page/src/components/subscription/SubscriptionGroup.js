@@ -6,8 +6,7 @@ import SubscribeButton from './SubscribeButton';
 import UnsubscribeButton from './UnsubscribeButton';
 import LoginButton from '../navbar/LoginButton';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-
-const DB_SERVER_HOST=process.env.REACT_APP_DB_SERVER_HOST;
+import { DB_SERVER_HOST } from '../../config';
 
 function SubscriptionGroup() {
     const [subscribeText, setSubscribeText] = useState("");
@@ -15,10 +14,11 @@ function SubscriptionGroup() {
     const { user, isAuthenticated, isLoading } = useAuth0();
     const [userIdInDB, setUserIdInDB] = useState(0);
     if (isAuthenticated) {
-        axios.get(DB_SERVER_HOST+'/users/'+user.email)
+
+        axios.get(DB_SERVER_HOST+'/users/auth0/'+user.sub)
                 .then(response => {
-                    setUserIdInDB(response.data.id);
-                    let isSubscribed = response.data.subscribed;
+                    setUserIdInDB(response.data.user.id);
+                    let isSubscribed = response.data.user.subscribed;
                     if (isSubscribed) {
                         setSubscribeText("You've already subscribed, grab a cup of coffee and enjoy the feeds!")
                         setIsSubscribe(true);
@@ -26,9 +26,22 @@ function SubscriptionGroup() {
                         setSubscribeText("Wanna subscribe for a feed? Not a cost!")
                         setIsSubscribe(false);
                     }
-                    console.log(subscribeText)
+                })
+                .catch(error => {
+                    if (error.response && error.response.status === 404) {
+                        axios.post(DB_SERVER_HOST+'/users', {
+                            "email": user.email,
+                            "auth0_id": user.sub
+                        }).then( response => {
+                            setUserIdInDB(response.data.user.id);
+                        }).catch( error => {
+                            console.log(error);
+                        })
+                    }
                 })
     }
+
+
 
     if (isLoading) {
         return (

@@ -20,7 +20,8 @@ class User(db.Model):
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
     subscribed = Column(Boolean, default=False, nullable=False)
-    
+    auth0_id = Column(String, default="", nullable=False)
+
     def insert(self):
         db.session.merge(self)
         db.session.commit()
@@ -36,5 +37,6 @@ class User(db.Model):
         return {
             'id': self.id,
             'email': self.email,
-            'subscribed': self.subscribed
+            'subscribed': self.subscribed,
+            'auth0_id': self.auth0_id
         }

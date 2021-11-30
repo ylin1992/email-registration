@@ -48,13 +48,24 @@ def post_token_request(id_token):
     r = requests.post(url, data=obj, headers=header)
     print(r.content)
 
+@app.route('/users/auth0/<auth0_id>')
+def get_user_by_auth0_id(auth0_id):
+    user = User.query.filter_by(auth0_id=auth0_id).one_or_none()
+    if user is None:
+        abort(404)
+    return jsonify({
+        'success': True,
+        'user': user.format()
+    })
+
 @app.route('/users/<email>')
 def get_user_by_email(email):
     print(email)
     user = User.query.filter_by(email=email).one_or_none()
     if user is None:
-        user = User(email=email, subscribed=False)
-        user.insert()
+        abort(404)
+        # user = User(email=email, subscribed=False)
+        # user.insert()
 
     return jsonify({
         'email': user.email,
@@ -105,6 +116,29 @@ def get_all_users():
     return jsonify({
         'users': users,
         'success': True
+    })
+
+@app.route('/users', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    print(data)
+    if 'auth0_id' not in data or 'email' not in data:
+        abort(400)
+    
+    user_query = User.query.filter_by(auth0_id=data['auth0_id']).one_or_none()
+    if user_query is not None:
+        abort(422)
+
+    user = User(auth0_id=data['auth0_id'], email=data['email'])
+    user.insert()
+
+    validated = User.query.filter_by(auth0_id=data['auth0_id']).one_or_none()
+    if validated is None:
+        abort(500)
+
+    return jsonify({
+        'success': True,
+        'user': validated.format()
     })
 
 if __name__ == '__main__':

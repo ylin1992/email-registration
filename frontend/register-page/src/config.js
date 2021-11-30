@@ -1,0 +1,5 @@
+
+const DB_SERVER_HOST=process.env.REACT_APP_DB_SERVER_HOST;
+
+
+export {DB_SERVER_HOST}
