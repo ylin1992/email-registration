@@ -11,7 +11,16 @@ function UnsubscribeButton(props) {
             'subscribed': false
         }).then(response => {
             props.setIsSubscribe(data.subscribed);
-        }).then( () => {
+        }).then( response => {
+            console.log(props.user.sub);
+            axios.get(DB_SERVER_HOST+'/leave/'+props.user.sub)
+            .then(response => {
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+            })
+        })
+        .then( () => {
             window.location.href = window.location.origin;
         })
         .catch(error => {

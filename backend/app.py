@@ -5,6 +5,8 @@ import http.client
 import requests
 import json
 import os
+from email_sender.emails import SendGridEmail
+from email_sender.config import SENDER_EMAIL
 #from auth.auth import requires_auth
 REDIRECT_URL = 'http://localhost:3000'
 
@@ -140,6 +142,54 @@ def create_user():
         'success': True,
         'user': validated.format()
     })
+
+@app.route('/welcome/<auth0_id>')
+def send_welcome_email(auth0_id):
+    try:
+        user = User.query.filter_by(auth0_id=auth0_id).one_or_none()
+    except Exception as e:
+        print(e)
+        abort(500)
+    if user is None:
+        abort(404)
+    try:
+        email_address = user.email
+        email = SendGridEmail(sender=SENDER_EMAIL, receiver=email_address, subject="", content="")
+        email.set_email(subject="Welcome to Profresher", content="You've subscribed, grab a cup of coffee :)")
+        email.send_email()
+    except Exception as e:
+        print(e)
+        abort(500)
+
+    return jsonify({
+        "success": True,
+        "user": user.format()
+    })
+
+
+@app.route('/leave/<auth0_id>')
+def send_leaving_email(auth0_id):
+    try:
+        user = User.query.filter_by(auth0_id=auth0_id).one_or_none()
+    except Exception as e:
+        print(e)
+        abort(500)
+    if user is None:
+        abort(404)
+    try:
+        email_address = user.email
+        email = SendGridEmail(sender=SENDER_EMAIL, receiver=email_address, subject="", content="")
+        email.set_email(subject="We will miss you", content="We are soory that you choose to leave us, feel free to get back :)")
+        email.send_email()
+    except Exception as e:
+        print(e)
+        abort(500)
+
+    return jsonify({
+        "success": True,
+        "user": user.format()
+    })
+
 
 if __name__ == '__main__':
     app.run(debug=True)

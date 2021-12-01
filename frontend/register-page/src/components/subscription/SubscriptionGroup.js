@@ -58,9 +58,9 @@ function SubscriptionGroup() {
                 {isSubscribe && ( <CheckCircleIcon fontSize="large" style={{ color: "green" }}/> )}
                 <p>{subscribeText}</p>
                 {!isSubscribe ? (
-                    <SubscribeButton isSubscribe={isSubscribe} id={userIdInDB} setIsSubscribe={setIsSubscribe}/>
+                    <SubscribeButton isSubscribe={isSubscribe} id={userIdInDB} setIsSubscribe={setIsSubscribe} user={user}/>
                 ) : (
-                    <UnsubscribeButton isSubscribe={isSubscribe} id={userIdInDB} setIsSubscribe={setIsSubscribe}/>
+                    <UnsubscribeButton isSubscribe={isSubscribe} id={userIdInDB} setIsSubscribe={setIsSubscribe} user={user}/>
                 )}
             </div>
         ) : (
